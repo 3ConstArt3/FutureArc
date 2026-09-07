@@ -88,7 +88,7 @@ class CatalogTests(unittest.TestCase):
         self.idea()
         build_catalog(self.config)
         previous = self.config.output_file.read_bytes()
-        with patch('genaiart.storage.os.replace', side_effect=PermissionError('locked')):
+        with patch('src.storage.os.replace', side_effect=PermissionError('locked')):
             with self.assertRaises(CatalogBuildError):
                 build_catalog(self.config)
         self.assertEqual(previous, self.config.output_file.read_bytes())
@@ -98,7 +98,7 @@ class CatalogTests(unittest.TestCase):
         self.idea()
         project = self.root.parent / 'project'
         project.mkdir()
-        shutil.copytree(PROJECT / 'genaiart', project / 'genaiart')
+        shutil.copytree(PROJECT / 'src', project / 'src')
         shutil.copytree(self.root, project / 'assets')
         shutil.copyfile(PROJECT / 'main.py', project / 'main.py')
         result = subprocess.run(
